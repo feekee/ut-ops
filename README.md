@@ -39,36 +39,54 @@ ut/
 
 ## 🚀 快速开始
 
-### 1. 环境准备
+### 方式 1：Docker 部署（推荐）
 
 ```bash
-# 克隆项目
+# 1. 复制环境变量配置
+copy env.example .env
+
+# 2. 编辑 .env，填写 Dify API Key 等配置
+# (Windows) notepad .env
+# (Linux/Mac) vim .env
+
+# 3. 构建并启动
+# Windows
+build.bat
+
+# Linux/Mac
+bash build.sh
+
+# 4. 访问应用
+# 前端: http://localhost:3000
+# 后端: http://localhost:8000/docs
+```
+
+### 方式 2：本地开发
+
+```bash
+# 1. 环境准备
 cd D:\work\ut
 
-# 安装前端依赖
+# 2. 安装前端依赖
 cd frontend
 npm install
 
-# 安装后端依赖
+# 3. 安装后端依赖
 cd ../backend
 pip install -r requirements.txt
-```
 
-### 2. 配置 Dify
+# 4. 配置 Dify
+# - 访问 Dify 控制台
+# - 创建 Agent 应用
+# - 配置知识库和工具插件
+# - 获取 API Key
 
-1. 访问 Dify 控制台
-2. 创建 Agent 应用
-3. 配置知识库和工具插件
-4. 获取 API Key
-
-### 3. 启动服务
-
-```bash
-# 启动后端
+# 5. 启动服务
+# 启动后端（终端 1）
 cd backend
 uvicorn app.main:app --reload --port 8000
 
-# 启动前端
+# 启动前端（终端 2）
 cd frontend
 npm run dev
 ```

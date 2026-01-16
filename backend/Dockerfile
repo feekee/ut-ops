@@ -2,9 +2,15 @@
 # 智能运维助手 - 后端 Dockerfile
 # ============================================
 
+ARG APT_SOURCE=""
 FROM python:3.11-slim
 
 WORKDIR /app
+
+# 如果指定了 apt 源，则替换为自定义源（用于内网环境）
+RUN if [ -n "$APT_SOURCE" ]; then \
+    echo "$APT_SOURCE" > /etc/apt/sources.list; \
+    fi
 
 # 安装系统依赖
 RUN apt-get update && apt-get install -y --no-install-recommends \

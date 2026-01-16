@@ -7,11 +7,10 @@ import {
   Server,
   FileText,
   Terminal,
-  Cpu,
   HardDrive,
   Activity,
 } from 'lucide-react'
-import { useChatStore, Message } from '../store/chatStore'
+import { useChatStore } from '../store/chatStore'
 import { sendMessage } from '../services/api'
 import MessageBubble from './MessageBubble'
 import clsx from 'clsx'
@@ -65,7 +64,6 @@ export default function ChatArea({ sidebarOpen, onToggleSidebar }: ChatAreaProps
     isLoading,
     createConversation,
     addMessage,
-    updateMessage,
     setLoading,
   } = useChatStore()
 

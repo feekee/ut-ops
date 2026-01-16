@@ -22,7 +22,7 @@ interface MessageBubbleProps {
   isLast?: boolean
 }
 
-function MessageBubble({ message, isLast }: MessageBubbleProps) {
+function MessageBubble({ message }: MessageBubbleProps) {
   const [copiedCode, setCopiedCode] = useState<string | null>(null)
   const isUser = message.role === 'user'
 

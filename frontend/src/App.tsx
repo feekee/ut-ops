@@ -5,7 +5,6 @@ import { useChatStore } from './store/chatStore'
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const { conversations, activeConversationId } = useChatStore()
 
   return (
     <div className="h-screen flex bg-dark-900 overflow-hidden">

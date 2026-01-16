@@ -41,7 +41,7 @@ interface ChatState {
 
 const generateId = () => Math.random().toString(36).substring(2, 15)
 
-export const useChatStore = create<ChatState>((set, get) => ({
+export const useChatStore = create<ChatState>((set) => ({
   conversations: [],
   activeConversationId: null,
   isLoading: false,

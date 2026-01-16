@@ -1,6 +1,7 @@
 """
 配置管理模块
 """
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 from typing import List, Optional
 from functools import lru_cache
@@ -63,17 +64,38 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "your-secret-key-change-in-production"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
     
-    # CORS 配置
-    CORS_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-    ]
+    # CORS 配置 - 使用字符串存储，然后转换为列表
+    CORS_ORIGINS_STR: str = "http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000,http://127.0.0.1:5173"
+    CORS_ORIGINS: List[str] = []
     
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+    
+    @field_validator('CORS_ORIGINS', mode='before')
+    @classmethod
+    def parse_cors_origins(cls, v, info):
+        """解析 CORS_ORIGINS - 支持逗号分隔的字符串或列表"""
+        if isinstance(v, list):
+            return v
+        
+        # 从环境变量获取字符串值
+        if not v:
+            cors_str = info.data.get('CORS_ORIGINS_STR', '')
+        else:
+            cors_str = v
+            
+        # 解析逗号分隔的字符串
+        if isinstance(cors_str, str) and cors_str:
+            return [url.strip() for url in cors_str.split(',') if url.strip()]
+        
+        # 默认值
+        return [
+            "http://localhost:3000",
+            "http://localhost:5173",
+            "http://127.0.0.1:3000",
+            "http://127.0.0.1:5173",
+        ]
 
 
 @lru_cache()

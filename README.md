@@ -117,8 +117,11 @@ npm run dev
 
 ## 📖 详细文档
 
+- [快速启动](QUICK-START.md) - 快速开始指南
+- [故障排查](TROUBLESHOOTING.md) - 常见问题解决
 - [安装部署指南](docs/setup.md) - 初始化配置
 - [Dify 配置指南](docs/dify-config.md) - Dify 平台配置
+- [Dify 集成指南](docs/dify-integration.md) - API 集成详解
 - [离线部署指南](docs/offline-deployment.md) - 内网离线部署
 - [内网部署指南](docs/intranet-deployment.md) - 内网有限网络部署
 - [NPM 故障排查](docs/npm-troubleshooting.md) - 前端构建问题

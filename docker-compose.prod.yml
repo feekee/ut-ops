@@ -39,7 +39,7 @@ services:
       - REDIS_URL=${REDIS_URL:-}
       # 安全配置
       - SECRET_KEY=${SECRET_KEY:-change-this-in-production}
-      - CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+      - CORS_ORIGINS_STR=${CORS_ORIGINS_STR:-http://localhost:3000,http://127.0.0.1:3000}
       - DEBUG=${DEBUG:-false}
     volumes:
       - backend-data:/app/data

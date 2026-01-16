@@ -1,0 +1,55 @@
+# SSH 运维工具 Provider 配置
+identity:
+  author: ops-team
+  name: ssh_ops
+  label:
+    en_US: SSH Operations
+    zh_Hans: SSH 运维操作
+  description:
+    en_US: SSH into remote servers and execute operations commands
+    zh_Hans: SSH 连接远程服务器并执行运维命令
+  icon: terminal
+  tags:
+    - operations
+    - ssh
+    - server
+
+credentials_for_provider:
+  default_username:
+    type: text-input
+    required: true
+    label:
+      en_US: Default Username
+      zh_Hans: 默认用户名
+    placeholder:
+      en_US: root
+      zh_Hans: root
+    help:
+      en_US: Default SSH username
+      zh_Hans: 默认 SSH 用户名
+      
+  default_password:
+    type: secret-input
+    required: true
+    label:
+      en_US: Default Password
+      zh_Hans: 默认密码
+    placeholder:
+      en_US: Enter password
+      zh_Hans: 输入密码
+    help:
+      en_US: Default SSH password
+      zh_Hans: 默认 SSH 密码
+      
+  allowed_ip_ranges:
+    type: text-input
+    required: false
+    label:
+      en_US: Allowed IP Ranges
+      zh_Hans: 允许的 IP 范围
+    placeholder:
+      en_US: "192.168.1.0/24,10.0.0.0/8"
+      zh_Hans: "192.168.1.0/24,10.0.0.0/8"
+    help:
+      en_US: Comma-separated list of allowed IP ranges (CIDR notation)
+      zh_Hans: 允许的 IP 范围列表，用逗号分隔（CIDR 格式）

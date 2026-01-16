@@ -1,0 +1,86 @@
+# SSH 命令执行工具配置
+identity:
+  name: execute_command
+  author: ops-team
+  label:
+    en_US: Execute SSH Command
+    zh_Hans: 执行 SSH 命令
+  icon: terminal
+
+description:
+  human:
+    en_US: Execute a command on a remote server via SSH
+    zh_Hans: 通过 SSH 在远程服务器上执行命令
+  llm: >
+    Execute shell commands on remote servers via SSH connection.
+    Use this tool when you need to:
+    - Check server status (CPU, memory, disk usage)
+    - View container status (docker ps, docker logs)
+    - Check Kubernetes pods (kubectl get pods)
+    - Check service status (systemctl status)
+    - View log files
+    - Check network connectivity (ping, curl)
+    
+    Important: Only whitelisted commands are allowed for security.
+
+parameters:
+  - name: host
+    type: string
+    required: true
+    label:
+      en_US: Host IP
+      zh_Hans: 主机 IP
+    human_description:
+      en_US: The IP address of the remote server
+      zh_Hans: 远程服务器的 IP 地址
+    llm_description: The IP address of the remote server to connect to
+    form: llm
+    
+  - name: command
+    type: string
+    required: true
+    label:
+      en_US: Command
+      zh_Hans: 命令
+    human_description:
+      en_US: The command to execute on the remote server
+      zh_Hans: 在远程服务器上执行的命令
+    llm_description: >
+      The shell command to execute. Only these command prefixes are allowed:
+      - kubectl get/describe/logs/top
+      - docker ps/logs/inspect/stats
+      - systemctl status
+      - df -h, free -m, top, ps aux
+      - netstat -tlnp, ss -tlnp
+      - ping, curl
+      - cat /var/log, tail, journalctl
+    form: llm
+    
+  - name: port
+    type: number
+    required: false
+    default: 22
+    label:
+      en_US: SSH Port
+      zh_Hans: SSH 端口
+    human_description:
+      en_US: SSH port number (default 22)
+      zh_Hans: SSH 端口号（默认 22）
+    llm_description: SSH port number, defaults to 22
+    form: llm
+
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Whether the command executed successfully
+    stdout:
+      type: string
+      description: Standard output of the command
+    stderr:
+      type: string
+      description: Standard error output of the command
+    exit_code:
+      type: integer
+      description: Exit code of the command

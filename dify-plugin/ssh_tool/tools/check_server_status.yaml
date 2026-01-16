@@ -1,0 +1,65 @@
+# 服务器状态检查工具配置
+identity:
+  name: check_server_status
+  author: ops-team
+  label:
+    en_US: Check Server Status
+    zh_Hans: 检查服务器状态
+  icon: server
+
+description:
+  human:
+    en_US: Check the overall status of a remote server (CPU, memory, disk, etc.)
+    zh_Hans: 检查远程服务器的整体状态（CPU、内存、磁盘等）
+  llm: >
+    Check the overall health and resource usage of a remote server.
+    Returns CPU usage, memory usage, disk usage, load average, and uptime.
+    Use this tool when users ask about server health or resource utilization.
+
+parameters:
+  - name: host
+    type: string
+    required: true
+    label:
+      en_US: Host IP
+      zh_Hans: 主机 IP
+    human_description:
+      en_US: The IP address of the remote server
+      zh_Hans: 远程服务器的 IP 地址
+    llm_description: The IP address of the server to check
+    form: llm
+    
+  - name: port
+    type: number
+    required: false
+    default: 22
+    label:
+      en_US: SSH Port
+      zh_Hans: SSH 端口
+    human_description:
+      en_US: SSH port number (default 22)
+      zh_Hans: SSH 端口号（默认 22）
+    llm_description: SSH port number, defaults to 22
+    form: llm
+
+output_schema:
+  type: object
+  properties:
+    online:
+      type: boolean
+      description: Whether the server is reachable
+    cpu_usage:
+      type: string
+      description: Current CPU usage percentage
+    memory_usage:
+      type: string
+      description: Current memory usage percentage
+    disk_usage:
+      type: string
+      description: Root filesystem disk usage
+    load_average:
+      type: string
+      description: System load average
+    uptime:
+      type: string
+      description: Server uptime

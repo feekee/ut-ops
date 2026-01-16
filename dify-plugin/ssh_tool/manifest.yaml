@@ -1,0 +1,16 @@
+version: 0.0.1
+type: plugin
+author: ops-team
+name: ssh_ops_tool
+label:
+  en_US: SSH Operations Tool
+  zh_Hans: SSH 运维工具
+description:
+  en_US: SSH connection and command execution tool for server operations
+  zh_Hans: SSH 连接和命令执行工具，用于服务器运维操作
+icon: terminal
+category: utilities
+created_at: 2026-01-16T00:00:00.000Z
+plugins:
+  tools:
+    - provider: ssh_ops

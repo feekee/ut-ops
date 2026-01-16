@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # 前端服务
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../docker/Dockerfile.frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - ops-network
+    restart: unless-stopped
+
+  # 后端服务
+  backend:
+    build:
+      context: ../backend
+      dockerfile: ../docker/Dockerfile.backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DIFY_API_BASE_URL=${DIFY_API_BASE_URL:-http://localhost/v1}
+      - DIFY_API_KEY=${DIFY_API_KEY:-}
+      - SSH_DEFAULT_USERNAME=${SSH_DEFAULT_USERNAME:-root}
+      - SSH_DEFAULT_PASSWORD=${SSH_DEFAULT_PASSWORD:-}
+      - DATABASE_URL=sqlite+aiosqlite:///./data/ops_assistant.db
+    volumes:
+      - backend-data:/app/data
+    networks:
+      - ops-network
+    restart: unless-stopped
+
+  # Redis 缓存（可选）
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - ops-network
+    restart: unless-stopped
+
+networks:
+  ops-network:
+    driver: bridge
+
+volumes:
+  backend-data:
+  redis-data:

@@ -39,7 +39,7 @@ ut/
 
 ## 🚀 快速开始
 
-### 方式 1：Docker 部署（推荐）
+### 方式 1：Docker 构建部署（需要网络）
 
 ```bash
 # 1. 复制环境变量配置
@@ -57,6 +57,30 @@ build.bat
 bash build.sh
 
 # 4. 访问应用
+# 前端: http://localhost:3000
+# 后端: http://localhost:8000/docs
+```
+
+### 方式 2：Docker 加载预构建镜像（离线部署）
+
+适用于内网环境，镜像已提前构建并导出。
+
+```bash
+# 1. 加载镜像
+docker load -i frontend.tar
+docker load -i backend.tar
+
+# 2. 启动服务
+# Windows
+start.bat
+
+# Linux/Mac
+bash start.sh
+
+# 或直接使用
+docker-compose up -d
+
+# 3. 访问应用
 # 前端: http://localhost:3000
 # 后端: http://localhost:8000/docs
 ```
@@ -93,10 +117,12 @@ npm run dev
 
 ## 📖 详细文档
 
-- [安装部署指南](docs/setup.md)
-- [Dify 配置指南](docs/dify-config.md)
-- [SSH 工具插件开发](docs/ssh-plugin.md)
-- [API 接口文档](docs/api.md)
+- [安装部署指南](docs/setup.md) - 初始化配置
+- [Dify 配置指南](docs/dify-config.md) - Dify 平台配置
+- [离线部署指南](docs/offline-deployment.md) - 内网离线部署
+- [内网部署指南](docs/intranet-deployment.md) - 内网有限网络部署
+- [NPM 故障排查](docs/npm-troubleshooting.md) - 前端构建问题
+- [API 接口文档](docs/api.md) - 接口参考
 
 ## 🔐 安全注意事项
 

@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # 前端服务
+  frontend:
+    image: cr.utapp.cn/ops/ut-ops-fronted:v1
+    container_name: ops-assistant-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - ops-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 后端服务
+  backend:
+    image: cr.utapp.cn/ops/ut-ops-backend:v1
+    container_name: ops-assistant-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Dify API 配置
+      - DIFY_API_BASE_URL=${DIFY_API_BASE_URL:-http://localhost/v1}
+      - DIFY_API_KEY=${DIFY_API_KEY:-}
+      # SSH 配置
+      - SSH_DEFAULT_USERNAME=${SSH_DEFAULT_USERNAME:-root}
+      - SSH_DEFAULT_PASSWORD=${SSH_DEFAULT_PASSWORD:-}
+      - SSH_DEFAULT_PORT=${SSH_DEFAULT_PORT:-22}
+      - SSH_TIMEOUT=${SSH_TIMEOUT:-30}
+      # 数据库
+      - DATABASE_URL=sqlite+aiosqlite:///./data/ops_assistant.db
+      # Redis（可选）
+      - REDIS_URL=${REDIS_URL:-}
+      # 安全配置
+      - SECRET_KEY=${SECRET_KEY:-change-this-in-production}
+      - CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+      - DEBUG=${DEBUG:-false}
+    volumes:
+      - backend-data:/app/data
+      - backend-logs:/app/logs
+    networks:
+      - ops-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis 缓存（可选）
+  redis:
+    image: redis:7-alpine
+    container_name: ops-assistant-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - ops-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+networks:
+  ops-network:
+    driver: bridge
+    name: ops-assistant-network
+
+volumes:
+  backend-data:
+    name: ops-assistant-backend-data
+  backend-logs:
+    name: ops-assistant-backend-logs
+  redis-data:
+    name: ops-assistant-redis-data
